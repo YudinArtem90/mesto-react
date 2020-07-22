@@ -1,9 +1,0 @@
-.element__container{
-    max-height: 79px;
-    background: #FFFFFF;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    margin: 0 22px;
-}
