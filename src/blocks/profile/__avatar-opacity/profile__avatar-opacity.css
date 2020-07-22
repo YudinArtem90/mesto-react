@@ -1,6 +1,6 @@
 .profile__avatar-opacity{
     opacity: 0;
-    background: url('/src/images/profile/pen.svg') no-repeat center center;
+    background: url(../../../images/button/pen.svg) no-repeat center center;
     background-size: 26px 26px;
     position: absolute;
     width: 120px;
