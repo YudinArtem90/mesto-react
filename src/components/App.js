@@ -76,7 +76,7 @@ function App() {
   }
   
   return (
-    <div className="App body">
+    <div className="body">
       <div className="page">
         <Header/>
         <Main
