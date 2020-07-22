@@ -8,7 +8,6 @@ function PopupWithForm({title, name, children, isOpen, onClose}){
             <img src={closeIcon} alt="Кнопка закрытия модального окна" className="popup__icon-close popup__icon-close_form" onClick={onClose}/>
             <h2 className="popup__title">{title}</h2>
             {children}
-            {/* <button className="popup__button popup__save_button" type="submit">Создать</button> */}
           </form>
         </div>
         );

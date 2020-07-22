@@ -9,7 +9,7 @@ import ImagePopup from './ImagePopup';
 function PopupDeleteCard(){
   return (
     <>
-        <button class="popup__button popup__button_delete-card" type="submit">Да</button>
+        <button className="popup__button popup__button_delete-card" type="submit">Да</button>
     </>
 );
 }
@@ -19,6 +19,7 @@ function PopupElementEditAvatar(){
       <>
           <input id="link_avatar" className="popup__field" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
           <span id="link_avatar-error" className="popup__field-error" />
+          <button className="popup__button popup__save_button" type="submit">Сохранить</button>
       </>
   );
 }
@@ -30,7 +31,7 @@ function PopupElementEditProfile(){
           <span id="name_person-error" className="popup__field-error" />
           <input id="inform_person" className="popup__field popup__field_inform_person" type="text" name="informPerson" minLength={2} maxLength={200} required />
           <span id="inform_person-error" className="popup__field-error" />
-          <button id="buttonSavePopupEditProfile" class="popup__button popup__save_button" type="submit">Сохранить</button>
+          <button className="popup__button popup__save_button" type="submit">Сохранить</button>
       </>
   );
 }
@@ -42,7 +43,7 @@ function PopupElementAddCard(){
           <span id="name_card-error" className="popup__field-error" />
           <input id="link_card" className="popup__field popup__field_link_card" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
           <span id="link_card-error" className="popup__field-error" />
-          <button id="buttonSavePopupAddCard" class="popup__button popup__save_button" type="submit">Создать</button>
+          <button className="popup__button popup__save_button" type="submit">Создать</button>
       </>
   );
 }
