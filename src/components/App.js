@@ -6,20 +6,11 @@ import PopupWithForm from './PopupWithForm.js';
 import '../index.css';
 import ImagePopup from './ImagePopup';
 
-function PopupDeleteCard(){
-  return (
-    <>
-        <button className="popup__button popup__button_delete-card" type="submit">Да</button>
-    </>
-);
-}
-
 function PopupElementEditAvatar(){
   return (
       <>
           <input id="link_avatar" className="popup__field" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
           <span id="link_avatar-error" className="popup__field-error" />
-          <button className="popup__button popup__save_button" type="submit">Сохранить</button>
       </>
   );
 }
@@ -31,7 +22,6 @@ function PopupElementEditProfile(){
           <span id="name_person-error" className="popup__field-error" />
           <input id="inform_person" className="popup__field popup__field_inform_person" type="text" name="informPerson" minLength={2} maxLength={200} required />
           <span id="inform_person-error" className="popup__field-error" />
-          <button className="popup__button popup__save_button" type="submit">Сохранить</button>
       </>
   );
 }
@@ -43,7 +33,6 @@ function PopupElementAddCard(){
           <span id="name_card-error" className="popup__field-error" />
           <input id="link_card" className="popup__field popup__field_link_card" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
           <span id="link_card-error" className="popup__field-error" />
-          <button className="popup__button popup__save_button" type="submit">Создать</button>
       </>
   );
 }
@@ -94,6 +83,7 @@ function App() {
             name ='popupEditAvatar'
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
+            textButton='Сохранить'
         />
 
         <PopupWithForm
@@ -102,6 +92,7 @@ function App() {
             name ='popupEditProfile'
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            textButton='Сохранить'
         />
 
         <PopupWithForm
@@ -110,14 +101,16 @@ function App() {
             name ='popupAddCard'
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
+            textButton='Создать'
         />
 
         <PopupWithForm
-            children={<PopupDeleteCard/>}
+            children={''}
             title='Вы уверены?'
             name ='popupDeleteCard'
             isOpen={isDeleteCardPopupOpen}
             onClose={closeAllPopups}
+            textButton='Да'
         />
 
         <ImagePopup
