@@ -68,6 +68,15 @@ function App() {
     handleCardClick('');
   }
 
+  function handleUpdateAvatar(data){
+    api.editAvatar(data)
+    .then((res) => {
+      changeCurrentUser(res);
+      closeAllPopups();
+    })
+    .catch((error) => console.log('Ошибка при редактировании аватара пользователя', error));
+  }
+
   function handleUpdateUser(data){
     api.editProfileForm(data)
       .then((res) => {
@@ -101,11 +110,12 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
         
-        {/* <EditAvatarPopup 
+        <EditAvatarPopup 
           isOpen={isEditAvatarPopupOpen} 
           onClose={closeAllPopups} 
-          onUpdateUser={handleUpdateUser}
-        /> */}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+
         {/* <PopupWithForm
             children={<PopupElementEditAvatar handleSubmit={handleSubmit}/>}
             title='Обновить аватар'

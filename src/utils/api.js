@@ -88,10 +88,10 @@ class Api{
                 .then(res => { return this._getResult(res) });
     }
 
-    editAvatar(linkCard){
+    editAvatar(data){
         this._getData({
             method: 'PATCH',
-            body: { avatar: linkCard},
+            body: data,
             contentType: 'application/json'
         });
 
