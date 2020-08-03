@@ -79,17 +79,18 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    api.addLikeOrDislikeCard(card._id, !isLiked).then((newCard) => {
-      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-      setCards(newCards);
-    });
+    api.addLikeOrDislikeCard(card._id, !isLiked)
+      .then((newCard) => {
+        const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+        setCards(newCards);
+      })
+      .catch((error) => console.log('Ошибка при добавления лайка', error));
   }
 
     function handleCardDelete(card){
         api.deleteCard(card._id).then((newCard) => {
-            console.log('newCard', newCard);
-            //const newCards = cards.filter((c) => c._id === card._id ? newCard : c);
-            //setCards(newCards);
+            const newCards = cards.filter((c) => c._id !== card._id);
+            setCards(newCards);
           });
     }
 
