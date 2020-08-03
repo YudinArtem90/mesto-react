@@ -5,6 +5,10 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm.js';
 import '../index.css';
 import ImagePopup from './ImagePopup';
+import api from '../utils/api';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
+// import AllPopupWithForm from './AllPopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 
 function PopupElementEditAvatar(){
   return (
@@ -44,6 +48,15 @@ function App() {
   const [isEditAvatarPopupOpen, openEditAvatarPopupClick] = React.useState(false);
   const [isDeleteCardPopupOpen, openDeleteCardPopupClick] = React.useState(false);
   const [selectedCard, handleCardClick] = React.useState('');
+  const [currentUser, changeCurrentUser] = React.useState({});
+
+  function getCurrentUser(){
+    api.getUserInfo()
+            .then((res) => {
+                changeCurrentUser(res);
+            })
+            .catch((error) => console.log('Ошибка при первичной загрузке данных пользователя', error));
+  }
 
   function handleEditProfileClick(){
     openEditProfilePopupClick(true);
@@ -63,21 +76,31 @@ function App() {
     openAddPlacePopupClick(false);
     handleCardClick('');
   }
+
+  React.useEffect(() => {
+    getCurrentUser();
+  }, []);
   
   return (
-    <div className="body">
-      <div className="page">
-        <Header/>
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          handleCardClick={(linkCard) => handleCardClick(linkCard)}
-        />
-        <Footer/>
-      </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="body">
+        <div className="page">
+          <Header/>
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            handleCardClick={(linkCard) => handleCardClick(linkCard)}
+          />
+          <Footer/>
+        </div>
 
-      <PopupWithForm
+        <EditProfilePopup 
+          isOpen={isEditProfilePopupOpen} 
+          onClose={closeAllPopups} 
+        />
+
+        <PopupWithForm
             children={<PopupElementEditAvatar/>}
             title='Обновить аватар'
             name ='popupEditAvatar'
@@ -86,14 +109,14 @@ function App() {
             textButton='Сохранить'
         />
 
-        <PopupWithForm
+        {/* <PopupWithForm
             children={<PopupElementEditProfile/>}
             title='Редактировать профиль'
             name ='popupEditProfile'
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             textButton='Сохранить'
-        />
+        /> */}
 
         <PopupWithForm
             children={<PopupElementAddCard/>}
@@ -112,12 +135,12 @@ function App() {
             onClose={closeAllPopups}
             textButton='Да'
         />
-
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups}
-        />
-    </div>
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
