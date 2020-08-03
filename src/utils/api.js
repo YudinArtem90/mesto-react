@@ -43,14 +43,11 @@ class Api{
                     .then(res => { return this._getResult(res) });
     }
 
-    addCard(name, link){
+    addCard(data){
 
         this._getData({
             method: 'POST',
-            body: { 
-                name: name,
-                link: link
-            },
+            body: data,
             contentType: 'application/json'
         });
 
