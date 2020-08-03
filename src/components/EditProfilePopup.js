@@ -14,9 +14,24 @@ function EditProfilePopup(props){
       }, [currentUser]);
 
     function onChangeName(e){
+        e.preventDefault();
         setName(e.target.value);
     }
 
+    function onChangeAbout(e){
+        e.preventDefault();
+        setDescription(e.target.value);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        props.onUpdateUser({
+          name,
+          about: description,
+        });
+    }
+    
     function PopupElementEditProfile(){
         return (
             <>
@@ -40,6 +55,7 @@ function EditProfilePopup(props){
                     name="informPerson" 
                     minLength={2} 
                     maxLength={200}  
+                    onChange={onChangeAbout}
                     value={description} 
                     required 
                 />
@@ -50,6 +66,7 @@ function EditProfilePopup(props){
     
     return(
         <PopupWithForm
+            onSubmit={handleSubmit}
             children={<PopupElementEditProfile/>}
             title='Редактировать профиль'
             name ='popupEditProfile'

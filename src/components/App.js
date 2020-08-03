@@ -7,17 +7,8 @@ import '../index.css';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
-// import AllPopupWithForm from './AllPopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
-
-function PopupElementEditAvatar(){
-  return (
-      <>
-          <input id="link_avatar" className="popup__field" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
-          <span id="link_avatar-error" className="popup__field-error" />
-      </>
-  );
-}
+import EditAvatarPopup from './EditAvatarPopup';
 
 function PopupElementEditProfile(){
   return (
@@ -77,6 +68,15 @@ function App() {
     handleCardClick('');
   }
 
+  function handleUpdateUser(data){
+    api.editProfileForm(data)
+      .then((res) => {
+        changeCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((error) => console.log('Ошибка при редактировании данных пользователя', error));
+  }
+
   React.useEffect(() => {
     getCurrentUser();
   }, []);
@@ -98,16 +98,22 @@ function App() {
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen} 
           onClose={closeAllPopups} 
+          onUpdateUser={handleUpdateUser}
         />
-
-        <PopupWithForm
-            children={<PopupElementEditAvatar/>}
+        
+        {/* <EditAvatarPopup 
+          isOpen={isEditAvatarPopupOpen} 
+          onClose={closeAllPopups} 
+          onUpdateUser={handleUpdateUser}
+        /> */}
+        {/* <PopupWithForm
+            children={<PopupElementEditAvatar handleSubmit={handleSubmit}/>}
             title='Обновить аватар'
             name ='popupEditAvatar'
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             textButton='Сохранить'
-        />
+        /> */}
 
         {/* <PopupWithForm
             children={<PopupElementEditProfile/>}

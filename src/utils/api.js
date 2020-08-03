@@ -78,14 +78,9 @@ class Api{
 
 
     editProfileForm(data){
-        const {informPerson, namePerson} = data;
-
         this._getData({
             method: 'PATCH',
-            body: { 
-                name: namePerson,
-                about: informPerson
-            },
+            body: data,
             contentType: 'application/json'
         });
 
