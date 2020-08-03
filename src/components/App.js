@@ -9,6 +9,7 @@ import api from '../utils/api';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function PopupElementEditProfile(){
   return (
@@ -21,17 +22,6 @@ function PopupElementEditProfile(){
   );
 }
 
-function PopupElementAddCard(){
-  return (
-      <>
-          <input id="name_card" className="popup__field popup__field_name_card" type="text" minLength={1} maxLength={30} name="nameCard" placeholder="Название" required />
-          <span id="name_card-error" className="popup__field-error" />
-          <input id="link_card" className="popup__field popup__field_link_card" type="url" name="linkCard" placeholder="Ссылка на картинку" required />
-          <span id="link_card-error" className="popup__field-error" />
-      </>
-  );
-}
-
 function App() {
 
   const [isEditProfilePopupOpen, openEditProfilePopupClick] = React.useState(false);
@@ -40,6 +30,7 @@ function App() {
   const [isDeleteCardPopupOpen, openDeleteCardPopupClick] = React.useState(false);
   const [selectedCard, handleCardClick] = React.useState('');
   const [currentUser, changeCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
 
   function getCurrentUser(){
     api.getUserInfo()
@@ -86,6 +77,30 @@ function App() {
       .catch((error) => console.log('Ошибка при редактировании данных пользователя', error));
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.addLikeOrDislikeCard(card._id, !isLiked).then((newCard) => {
+      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+      setCards(newCards);
+    });
+  }
+
+    function handleCardDelete(card){
+        api.deleteCard(card._id).then((newCard) => {
+            console.log('newCard', newCard);
+            //const newCards = cards.filter((c) => c._id === card._id ? newCard : c);
+            //setCards(newCards);
+          });
+    }
+
+    function handleAddPlaceSubmit(data){
+      api.addCard(data)
+        .then((newCard) => {
+          setCards([...cards, newCard]);
+          closeAllPopups();
+        });
+    }
+
   React.useEffect(() => {
     getCurrentUser();
   }, []);
@@ -100,6 +115,10 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             handleCardClick={(linkCard) => handleCardClick(linkCard)}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            setCards={setCards}
           />
           <Footer/>
         </div>
@@ -116,31 +135,10 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
 
-        {/* <PopupWithForm
-            children={<PopupElementEditAvatar handleSubmit={handleSubmit}/>}
-            title='Обновить аватар'
-            name ='popupEditAvatar'
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            textButton='Сохранить'
-        /> */}
-
-        {/* <PopupWithForm
-            children={<PopupElementEditProfile/>}
-            title='Редактировать профиль'
-            name ='popupEditProfile'
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            textButton='Сохранить'
-        /> */}
-
-        <PopupWithForm
-            children={<PopupElementAddCard/>}
-            title='Новое место'
-            name ='popupAddCard'
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            textButton='Создать'
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen} 
+          onClose={closeAllPopups} 
+          onAddPlace={handleAddPlaceSubmit}
         />
 
         <PopupWithForm

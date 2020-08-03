@@ -4,28 +4,10 @@ import Card from './Сard';
 import pen from '../images/button/pen.svg';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
-export default function Main({onEditProfile, onAddPlace, onEditAvatar, handleCardClick}){
+export default function Main({onEditProfile, onAddPlace, onEditAvatar, handleCardClick, onCardLike, cards, onCardDelete, setCards}){
 
     const currentUser = React.useContext(CurrentUserContext);
-
-    const [cards, setCards] = React.useState([]);
-
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-        api.addLikeOrDislikeCard(card._id, !isLiked).then((newCard) => {
-          const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-          setCards(newCards);
-        });
-    }
-
-    function handleCardDelete(card){
-        api.deleteCard(card._id).then((newCard) => {
-            console.log('newCard', newCard);
-            //const newCards = cards.filter((c) => c._id === card._id ? newCard : c);
-            //setCards(newCards);
-          });
-    }
-
+    
     function showCards(){
         api.getCards() 
             .then((res) => {
@@ -64,8 +46,8 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar, handleCar
                             key={card._id} 
                             {...card}
                             onCardClick={(linkCard) => handleCardClick(linkCard)}
-                            onCardLike={(card) => handleCardLike(card)}
-                            onCardDelete={(card) => handleCardDelete(card)}
+                            onCardLike={(card) => onCardLike(card)}
+                            onCardDelete={(card) => onCardDelete(card)}
                         />)
                 }
             </section>
